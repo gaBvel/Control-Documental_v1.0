@@ -1,36 +1,22 @@
 <%- include('../partials/head', { title, styles }) %>
 <div class="contenedor">
-    <%- include('../partials/sidebar', { menu, usuario }) %>
-    
-    <main class="contenido">
-        <h1>Normatividad</h1>
-        <p>Antes de continuar, revisa la siguiente documentación.</p>
-        
-        <% const docs = [['Ley de Archivos del Estado de Hidalgo', 'Ley de Archivos del Estado de Hidalgo.pdf', 'Documento obligatorio.'], ['Estructura Orgánica', 'Estructura Orgánica.pdf', 'Consulta la estructura organizacional.'], ['Instructivo Formato Inventario', 'INSTRUCTIVO FORMATO INVENTARIO.pdf', 'Conoce el procedimiento para realizar el inventario.'], ['Formato Inventario (Excel)', 'FORMATO INVENTARIO.xlsx', 'Formato descargable.']]; %><% docs.forEach(doc => { %>
-            
-            <div class="documento">
-                <div class="info">
-                    <i class="fa-solid fa-book"></i>
-                    <div>
-                        <h3><%= doc[0] %></h3>
-                        <p><%= doc[2] %></p>
-                    </div>
-                </div>
-                
-                <div class="acciones">
-                    <a href="/resources/doc/<%= encodeURIComponent(doc[1]) %>" target="_blank" rel="noopener">
-                        <button type="button" class="btn-ver">Ver documento</button>
-                    </a>
-                    
-                    <button type="button" class="btn-leido">✓ Marcar como leído</button>
-                </div>
-            </div>
-        <% }) %>
-    </main>
+  <%- include('../partials/sidebar', { menu, usuario }) %>
+  <main class="contenido usuario-panel">
+    <header class="usuario-encabezado">
+      <div><p class="eyebrow">RECURSOS DE CONSULTA</p><h1>Normatividad documental</h1><span>Revisa los documentos necesarios antes de elaborar y enviar un inventario.</span></div>
+    </header>
+    <% const docs = [['fa-scale-balanced', 'Ley de Archivos del Estado de Hidalgo', 'Ley de Archivos del Estado de Hidalgo.pdf', 'Marco normativo obligatorio para la gestión documental.', 'PDF'], ['fa-sitemap', 'Estructura Orgánica', 'Estructura Orgánica.pdf', 'Consulta las áreas responsables y su organización institucional.', 'PDF'], ['fa-book-open', 'Instructivo de formato de inventario', 'INSTRUCTIVO FORMATO INVENTARIO.pdf', 'Guía práctica para completar el inventario correctamente.', 'PDF'], ['fa-file-excel', 'Formato de inventario', 'FORMATO INVENTARIO.xlsx', 'Plantilla descargable para el registro de expedientes.', 'XLSX']]; %>
+    <section class="documentos-grid">
+      <% docs.forEach(doc => { %>
+        <article class="documento-profesional">
+          <span class="documento-icono"><i class="fa-solid <%= doc[0] %>"></i></span><span class="tipo-archivo"><%= doc[4] %></span>
+          <h2><%= doc[1] %></h2><p><%= doc[3] %></p>
+          <div class="documento-acciones"><a href="/resources/doc/<%= encodeURIComponent(doc[2]) %>" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Ver documento</a><a href="/resources/doc/<%= encodeURIComponent(doc[2]) %>" download aria-label="Descargar <%= doc[1] %>"><i class="fa-solid fa-download"></i></a></div>
+        </article>
+      <% }) %>
+    </section>
+    <section class="aviso-normativa"><i class="fa-solid fa-lightbulb"></i><div><h2>Recomendación</h2><p>Consulta el instructivo y descarga el formato antes de iniciar un nuevo inventario.</p></div><a href="/usuario/inventario">Ir a inventarios <i class="fa-solid fa-arrow-right"></i></a></section>
+  </main>
 </div>
-
-<!-- Modal Perfil usuario -->
 <%- include('../partials/profile-modal', { usuario }) %>
-
-<!-- Scripts -->
 <%- include('../partials/scripts', { sidebar: true, scripts: [] }) %>
