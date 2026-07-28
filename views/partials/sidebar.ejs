@@ -1,0 +1,41 @@
+<!-- Componente Sidebar -->
+<aside class="sidebar" id="sidebar">
+    <div class="logo">
+        <div class="logo-icon">
+            <img src="/resources/img/star.ico" alt="SCD">
+        </div>
+
+        <div class="logo-texto">
+            <h2>SCD</h2>
+            <span>Sistema de Control Documental</span>
+        </div>
+    </div>
+
+    <nav class="menu menu-principal">
+        <% menu.forEach(item => { %>
+            <a href="<%= item.url %>" class="menu-item <%= item.active ? 'active' : '' %>" data-title="<%= item.name %>">
+                <i class="<%= item.icon %>"></i>
+                <span><%= item.name %></span>
+            </a>
+        <% }) %>
+    </nav>
+
+    <div class="sidebar-footer">
+        <button type="button" class="perfil" id="abrirPerfil">
+            <span class="avatar">
+                <i class="fa-solid fa-circle-user"></i>
+            </span>
+            
+            <span class="perfil-texto">
+                <strong><%= usuario.nombre %></strong>
+                <small><%= usuario.puesto || usuario.rol %></small>
+            </span>
+            <i class="fa-solid fa-chevron-right perfil-flecha"></i>
+        </button>
+
+        <a href="/logout" class="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Cerrar sesión</span>
+        </a>
+    </div>
+</aside>

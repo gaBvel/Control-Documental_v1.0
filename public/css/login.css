@@ -1,0 +1,135 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+    height: 100vh;
+    background: #f5f6fa;
+    overflow: hidden;
+}
+
+.container{
+    display: flex;
+    height: 100vh;
+}
+
+/*Panle Izquierdo*/
+.left-panel{
+    flex: 4;
+    background: linear-gradient(
+        #5a0b17,
+        #7e1e2e,
+        #a62d3d
+    );
+
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay{
+    text-align: center;
+    padding: 50px;
+}
+
+.logo-container h1{
+    font-size: 60px;
+    margin-bottom: 25px;
+}
+
+.logo-container h2{
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/*Panel derecho*/
+.right-panel{
+    flex: 6;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-card{
+    width: 450px;
+    background: white;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgba(0,0,0,.08);
+}
+
+.login-card h2{
+    text-align: center;
+    color: #5a0b17;
+    font-size: 38px;
+}
+
+.subtitle{
+    text-align: center;
+    color: #6b7280;
+    margin-top: 10px;
+    margin-bottom: 35px;
+}
+
+.input-group{
+    margin-bottom: 25px;
+}
+
+.input-group label{
+    display: block;
+    margin-bottom: 8px;
+    color: #374151;
+    font-weight: 600;
+}
+
+.input-box{
+    position: relative;
+}
+
+.input-box i:first-child{
+    position: absolute;
+    top: 17px;
+    left: 15px;
+    color: #9ca3af;
+}
+
+.input-box input{
+    width: 100%;
+    padding: 15px 45px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    font-size: 15px;
+}
+
+.input-box input:focus{
+    border-color:#7E1E2E;
+    outline:none;
+    box-shadow:0 0 0 4px rgba(126,30,46,.15);
+}
+
+.btn-login{
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    background: #7e1e2e;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-login:hover{
+    background: #bc955b;
+}
+
+@media(max-width:900px){
+    .left-panel{display: none;}
+    .right-panel{flex: 1;}
+    .login-card{width: 90%;}
+}

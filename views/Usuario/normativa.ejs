@@ -1,0 +1,36 @@
+<%- include('../partials/head', { title, styles }) %>
+<div class="contenedor">
+    <%- include('../partials/sidebar', { menu, usuario }) %>
+    
+    <main class="contenido">
+        <h1>Normatividad</h1>
+        <p>Antes de continuar, revisa la siguiente documentación.</p>
+        
+        <% const docs = [['Ley de Archivos del Estado de Hidalgo', 'Ley de Archivos del Estado de Hidalgo.pdf', 'Documento obligatorio.'], ['Estructura Orgánica', 'Estructura Orgánica.pdf', 'Consulta la estructura organizacional.'], ['Instructivo Formato Inventario', 'INSTRUCTIVO FORMATO INVENTARIO.pdf', 'Conoce el procedimiento para realizar el inventario.'], ['Formato Inventario (Excel)', 'FORMATO INVENTARIO.xlsx', 'Formato descargable.']]; %><% docs.forEach(doc => { %>
+            
+            <div class="documento">
+                <div class="info">
+                    <i class="fa-solid fa-book"></i>
+                    <div>
+                        <h3><%= doc[0] %></h3>
+                        <p><%= doc[2] %></p>
+                    </div>
+                </div>
+                
+                <div class="acciones">
+                    <a href="/resources/doc/<%= encodeURIComponent(doc[1]) %>" target="_blank" rel="noopener">
+                        <button type="button" class="btn-ver">Ver documento</button>
+                    </a>
+                    
+                    <button type="button" class="btn-leido">✓ Marcar como leído</button>
+                </div>
+            </div>
+        <% }) %>
+    </main>
+</div>
+
+<!-- Modal Perfil usuario -->
+<%- include('../partials/profile-modal', { usuario }) %>
+
+<!-- Scripts -->
+<%- include('../partials/scripts', { sidebar: true, scripts: [] }) %>

@@ -1,0 +1,54 @@
+<!-- Head -->
+<%- include('../partials/head', { title, styles }) %>
+
+<div class="contenedor">
+    <!-- Sidebar -->
+    <%- include('../partials/sidebar', { menu, usuario }) %>
+    
+    <main class="contenido">
+        <header>
+            <h1>Bienvenido, <%= usuario.nombre %></h1>
+            <p>Panel de administración</p>
+        </header>
+        
+        <section class="cards">
+            <% [['users','Usuarios registrados'],['folder-open','Inventarios'],['file-signature','Dictámenes'],['clock','Pendientes']].forEach(card => { %>
+                <div class="card">
+                    <i class="fa-solid fa-<%= card[0] %>"></i>
+                    <div>
+                        <h2>0</h2>
+                        <p><%= card[1] %></p>
+                    </div>
+                </div>
+            <% }) %>
+        </section>
+        
+        <section class="tabla">
+            <div class="titulo">
+                <h2>Actividad reciente del sistema</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Acción</th>
+                        <th>Módulo</th>
+                        <th>Fecha y hora</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5">Aún no hay actividad registrada.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+
+<!-- Modal perfil -->
+<%- include('../partials/profile-modal', { usuario }) %>
+
+<!-- Scripts -->
+<%- include('../partials/scripts', { sidebar: true, scripts: [] }) %>

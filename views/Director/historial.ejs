@@ -1,0 +1,39 @@
+<!-- Head -->
+<%- include('../partials/head', { title, styles }) %>
+
+<div class="contenedor">
+    <!-- Sidebar -->
+    <%- include('../partials/sidebar', { menu, usuario }) %>
+    
+    <!-- Contenido principal -->
+    <main class="contenido">
+        <header>
+            <h1>Historial de inventarios</h1>
+            <p>Panel principal del Director</p>
+        </header>
+        
+        <section class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tipo de inventario</th>
+                        <th>Fecha de envío</th>
+                        <th>Fecha A/R</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4">No hay registros para mostrar.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+
+<!-- Modal perfil usuario -->
+<%- include('../partials/profile-modal', { usuario }) %>
+
+<!-- Scripts -->
+<%- include('../partials/scripts', { sidebar: true, scripts: [] }) %>

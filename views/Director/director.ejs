@@ -1,0 +1,56 @@
+<!-- Head -->
+<%- include('../partials/head', { title, styles }) %>
+
+<div class="contenedor">
+    <!-- Sidebar -->
+    <%- include('../partials/sidebar', { menu, usuario }) %>
+    
+    <!-- Contenido principal -->
+    <main class="contenido">
+        <header>
+            <h1>Panel del Director</h1>
+            <p>Consulta el estado general del Sistema de Gestión Documental.</p>
+        </header>
+        
+        <section class="cards">
+            <% [['folder','Inventarios'],['circle-check','Aprobados'],['clock','Pendientes'],['circle-xmark','Rechazados']].forEach(card => { %>
+                <div class="card">
+                    <i class="fa-solid fa-<%= card[0] %>"></i>
+                    <div>
+                        <h2>0</h2>
+                        <p><%= card[1] %></p>
+                    </div>
+                </div>
+            <% }) %>
+        </section>
+        
+        <section class="tabla">
+            <div class="titulo-tabla">
+                <h2>Últimos inventarios</h2>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Folio</th>
+                        <th>Dependencia</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <tr>
+                        <td colspan="4">No hay inventarios registrados.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+
+<!-- Modal perfil usuario -->
+<%- include('../partials/profile-modal', { usuario }) %>
+
+<!-- Scripts -->
+<%- include('../partials/scripts', { sidebar: true, scripts: [] }) %>

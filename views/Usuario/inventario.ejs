@@ -1,0 +1,80 @@
+<%- include('../partials/head', { title, styles }) %>
+<div class="contenedor">
+    <!-- Sidebar -->
+    <%- include('../partials/sidebar', { menu, usuario }) %>
+    
+    <main class="contenido">
+        <section id="seleccionInventario">
+            <header>
+                <h1>
+                    <i class="fa-solid fa-folder-tree"></i>
+                    Inventario documental
+                </h1>
+                <p>Seleccione el tipo de inventario que desea realizar.</p>
+            </header>
+            
+            <div class="opciones">
+                <div class="opcion">
+                    <i class="fa-solid fa-file-circle-check"></i>
+                    <h3>Antes de la Ley de Archivo</h3>
+                    <p>Inventario de documentos generados antes de la Ley de Archivo.</p>
+                    
+                    <button type="button" onclick="iniciarInventario('Antes de la Ley')">Iniciar</button>
+                </div>
+                
+                <div class="opcion">
+                    <i class="fa-solid fa-file-shield"></i>
+                    <h3>Después de la Ley de Archivo</h3>
+                    <p>Inventario bajo lineamientos actuales de gestión documental.</p>
+                    
+                    <button type="button" onclick="iniciarInventario('Después de la Ley')">Iniciar</button>
+                </div>
+            </div>
+        </section>
+        
+        <section id="formularioInventario" class="oculto">
+            <header>
+                <h1>
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Registro de inventario
+                </h1>
+                <p id="tipoSeleccionado"></p>
+            </header>
+            
+            <form class="formulario">
+                <label for="tipoInventario">Tipo de inventario</label>
+                <select id="tipoInventario" name="tipoInventario">
+                    <option value="">Seleccione...</option>
+                    <option value="tramite">Archivo de Trámite</option>
+                    <option value="concentracion">Archivo de Concentración</option>
+                    <option value="historico">Archivo Histórico</option>
+                </select>
+                
+                <div id="formTramite" hidden>
+                    <label for="fondo">Fondo</label>
+                    <input type="text" id="fondo" name="fondo">
+                    <label for="subfondo">Subfondo</label>
+                    <input type="text" id="subfondo" name="subfondo">
+                    <label for="seccion">Sección</label>
+                    <input type="text" id="seccion" name="seccion">
+                    <label for="serie">Serie</label>
+                    <input type="text" id="serie" name="serie">
+                    <label for="fecha">Fecha de emisión</label>
+                    <input type="date" id="fecha" name="fecha">
+                    <label for="codigo">Código</label>
+                    <input type="text" id="codigo" name="codigo">
+                    
+                    <div class="acciones">
+                        <button type="button" class="guardar">Guardar</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+</div>
+
+<!-- Modal perfil usuario -->
+<%- include('../partials/profile-modal', { usuario }) %>
+
+<!-- Scripts -->
+<%- include('../partials/scripts', { sidebar: true, scripts: ['inventario.js'] }) %>

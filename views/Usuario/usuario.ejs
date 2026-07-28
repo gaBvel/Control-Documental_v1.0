@@ -1,0 +1,78 @@
+
+<%- include('../partials/head', { title, styles }) %>
+<div class="contenedor">
+    <%- include('../partials/sidebar', { menu, usuario }) %>
+    
+    <main class="contenido">
+        <header>
+            <h1>Bienvenido, <%= usuario.nombre %></h1>
+            <p>Panel principal</p>
+        </header>
+        
+        <section class="cards">
+            <div class="card">
+                <i class="fa-solid fa-file"></i>
+                
+                <div>
+                    <h2>0</h2>
+                    <p>Borradores</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <i class="fa-solid fa-paper-plane"></i>
+                <div>
+                    <h2>0</h2>
+                    <p>Enviados</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <i class="fa-solid fa-circle-check"></i>
+                <div>
+                    <h2>0</h2>
+                    <p>Aprobados</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <i class="fa-solid fa-circle-xmark"></i>
+                <div>
+                    <h2>0</h2>
+                    <p>Rechazados</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="tabla">
+            <div class="titulo">
+                <h2>Mis inventarios</h2>
+                <a href="/usuario/inventario">
+                    <button>
+                        <i class="fa-solid fa-plus"></i> 
+                        Nuevo inventario
+                    </button>
+                </a>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Inventario</th>
+                        <th>Tipo</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <tr>
+                        <td colspan="4">Aún no hay inventarios registrados.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+<%- include('../partials/profile-modal', { usuario }) %>
+<%- include('../partials/scripts', { sidebar: true, scripts: [] }) %>

@@ -1,0 +1,31 @@
+<div id="modalPerfil" class="modal" aria-hidden="true">
+    <div class="perfil-modal">
+        <button type="button" class="cerrar" id="cerrarPerfil" aria-label="Cerrar">&times;</button>
+        <div class="perfil-portada">
+        </div>
+        <div class="perfil-avatar">
+            <i class="fa-solid fa-circle-user"></i>
+        </div>
+
+        <h2><%= usuario.nombre %></h2>
+        <p class="perfil-puesto">
+            <%= usuario.puesto || usuario.rol %>
+        </p>
+        
+        <p class="perfil-area">
+            <i class="fa-solid fa-building"></i> 
+            <%= usuario.area || 'Sin área asignada' %>
+        </p>
+        <div class="perfil-datos">
+            <div>
+                <i class="fa-solid fa-envelope"></i>
+                <span><small>Correo electrónico</small><b><%= usuario.correo %></b></span>
+            </div>
+            <div>
+                <i class="fa-solid fa-briefcase"></i>
+                <span><small>Puesto</small><b><%= usuario.puesto || 'Sin puesto asignado' %></b></span>
+            </div>
+        </div>
+        <button type="button" class="boton-cerrar" id="btnCerrarPerfil">Cerrar</button>
+    </div>
+</div>
