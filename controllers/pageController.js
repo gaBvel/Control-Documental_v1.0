@@ -23,6 +23,7 @@ module.exports = {
     archivoRevision: render('Archivo/revision', 'Revisión de inventarios', 'revision', ['Archivo/revision.css']),
     usuario: render('Usuario/usuario', 'Panel Usuario', 'dashboard', ['Usuario/usuario.css']),
     usuarioInventario: render('Usuario/inventario', 'Inventario documental', 'inventario', ['Usuario/inventario.css']),
+    usuarioDictamen: render('Usuario/dictamen', 'Dictámenes', 'dictamen', ['Usuario/dictamen.css']),
     usuarioHistorial: render('Usuario/historial', 'Historial de usuario', 'historial', ['Usuario/historial.css']),
     usuarioNormativa: render('Usuario/normativa', 'Normatividad', 'normativa', ['Usuario/normativa.css']),
     director: render('Director/director', 'Panel Director', 'dashboard', ['Director/director.css']),

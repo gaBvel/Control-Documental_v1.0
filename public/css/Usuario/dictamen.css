@@ -1,0 +1,19 @@
+@import url('/resources/css/Usuario/usuario.css');
+
+.tabla-responsive { overflow-x:auto; }
+.fila-vacia td { padding:0; }
+.modal-formulario { overflow-y:auto; }
+.modal-contenido { width:min(100%,560px); margin:auto; padding:28px; border:1px solid rgba(255,255,255,.65); border-radius:20px; background:#fff; box-shadow:0 25px 80px rgba(0,0,0,.28); }
+.modal-encabezado { display:flex; align-items:flex-start; justify-content:space-between; gap:18px; }
+.modal-encabezado h2 { margin:3px 0 0; color:var(--texto); font-size:21px; }
+.modal-cerrar { display:grid; width:34px; height:34px; place-items:center; border:0; border-radius:50%; background:#f8e9ed; color:var(--vino); font-size:16px; cursor:pointer; }
+.modal-descripcion { margin:12px 0 22px; color:var(--texto-secundario); font-size:13px; line-height:1.55; }
+.modal-contenido .campo input[type="file"] { padding:10px 12px; }
+.modal-acciones { display:flex; justify-content:flex-end; gap:10px; margin-top:24px; }
+.modal-acciones button { cursor:pointer; }
+
+@media (max-width:560px) {
+    .modal-contenido { padding:22px; }
+    .modal-acciones { flex-direction:column-reverse; }
+    .modal-acciones button { width:100%; }
+}

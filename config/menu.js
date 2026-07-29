@@ -46,7 +46,6 @@ const menus = {
         }
     ],
 
-    
     Usuario:[
         {
             id:"dashboard",
@@ -63,6 +62,13 @@ const menus = {
         },
 
         {
+            id: "dictamen",
+            name: "Dictamen",
+            icon: "fa-solid fa-book",
+            url: "/usuario/dictamen"
+        },
+
+        {
             id:"normativa",
             name:"Normatividad",
             icon:"fa-solid fa-book",
@@ -74,7 +80,7 @@ const menus = {
             name:"Historial",
             icon:"fa-solid fa-clock-rotate-left",
             url:"/usuario/historial"
-        }
+        },
     ],
 
     Administrador:[

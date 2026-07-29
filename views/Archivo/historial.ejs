@@ -1,2 +1,53 @@
 <%- include('../partials/head', { title, styles }) %>
-<div class="contenedor"><%- include('../partials/sidebar', { menu, usuario }) %><main class="contenido usuario-panel"><header class="usuario-encabezado"><div><p class="eyebrow">TRAZABILIDAD DOCUMENTAL</p><h1>Historial de Archivo</h1><span>Consulta los inventarios revisados y las acciones realizadas.</span></div></header><section class="usuario-tabla tabla"><div class="usuario-seccion-titulo"><div><p class="eyebrow">REGISTROS</p><h2>Historial de revisiones</h2></div><span class="contador-registros">0 registros</span></div><div class="historial-filtros"><label><i class="fa-solid fa-magnifying-glass"></i><input type="search" placeholder="Buscar por folio o usuario"></label><select aria-label="Estado"><option>Todos los estados</option><option>Aprobado</option><option>Rechazado</option></select><button type="button"><i class="fa-solid fa-sliders"></i> Filtrar</button></div><div class="estado-vacio estado-vacio-tabla"><span><i class="fa-solid fa-clock-rotate-left"></i></span><h3>No hay registros para mostrar</h3><p>Las revisiones de inventarios se mostrarán en este historial.</p></div></section></main></div><%- include('../partials/profile-modal', { usuario }) %><%- include('../partials/scripts', { sidebar: true, scripts: [] }) %>
+<div class="contenedor">
+    <%- include('../partials/sidebar', { menu, usuario }) %>
+    <main class="contenido usuario-panel">
+        <header class="usuario-encabezado">
+            <div>
+                <p class="eyebrow">TRAZABILIDAD DOCUMENTAL</p>
+                <h1>Historial de Archivo</h1>
+                <span>Consulta los inventarios recibidos y las acciones realizadas.</span>
+            </div>
+        </header>
+
+        <section class="usuario-tabla tabla">
+            <div class="usuario-seccion-titulo">
+                <div>
+                    <p class="eyebrow">REGISTROS</p>
+                    <h2>Historial de inventarios</h2>
+                </div>
+                <span class="contador-registros">0 registros</span>
+            </div>
+            <div class="historial-filtros">
+                <label><i class="fa-solid fa-magnifying-glass"></i><input type="search" placeholder="Buscar por persona generadora"></label>
+                <select aria-label="Estado"><option>Todos los estados</option><option>Aprobado</option><option>Rechazado</option></select>
+                <button type="button"><i class="fa-solid fa-sliders"></i> Filtrar</button>
+            </div>
+            <div class="tabla-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Persona generadora</th>
+                            <th>Fecha y hora de envío</th>
+                            <th>Fecha y hora de aprobación/rechazo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fila-vacia">
+                            <td colspan="4">
+                                <div class="estado-vacio estado-vacio-tabla">
+                                    <span><i class="fa-solid fa-clock-rotate-left"></i></span>
+                                    <h3>No hay registros para mostrar</h3>
+                                    <p>Los inventarios enviados aparecerán aquí para consultarlos, aprobarlos o rechazarlos.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+<%- include('../partials/profile-modal', { usuario }) %>
+<%- include('../partials/scripts', { sidebar: true, scripts: [] }) %>

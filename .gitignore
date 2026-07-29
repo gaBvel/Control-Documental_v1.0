@@ -3,6 +3,3 @@ node_modules/
 
 #Variables de entorno / credenciales
 .env
-
-#liveServer
-.vscode

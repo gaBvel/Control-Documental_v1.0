@@ -1,0 +1,94 @@
+<!-- Head -->
+<%- include('../partials/head', { title, styles }) %>
+<div class="contenedor">
+    <!-- Sidebar -->
+    <%- include('../partials/sidebar', { menu, usuario }) %>
+    <main class="contenido usuario-panel">
+        <header class="usuario-encabezado">
+            <div>
+                <p class="eyebrow">CONTROL DOCUMENTAL</p>
+                <h1>Dictámenes</h1>
+                <span>Registra y consulta los dictámenes asociados a tus inventarios.</span>
+            </div>
+            <button class="boton-principal" type="button" data-modal-open="modalDictamen">
+                <i class="fa-solid fa-plus"></i> Registrar dictamen
+            </button>
+        </header>
+
+        <section class="usuario-tabla tabla">
+            <div class="usuario-seccion-titulo">
+                <div>
+                    <p class="eyebrow">REGISTROS</p>
+                    <h2>Historial de dictámenes</h2>
+                </div>
+                <span class="contador-registros" id="contadorDictamenes">0 registros</span>
+            </div>
+            <div class="tabla-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha del dictamen</th>
+                            <th>Archivo del dictamen</th>
+                            <th>Tipo de dictamen</th>
+                            <th>Archivo del acta</th>
+                            <th>Evidencia</th>
+                            <th>Notas u observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaDictamenes">
+                        <tr class="fila-vacia">
+                            <td colspan="6">
+                                <div class="estado-vacio estado-vacio-tabla">
+                                    <span><i class="fa-solid fa-file-circle-check"></i></span>
+                                    <h3>No hay dictámenes registrados</h3>
+                                    <p>Registra un dictamen para iniciar el seguimiento documental.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- Modal formulario -->
+<div class="modal modal-formulario" id="modalDictamen" aria-hidden="true" role="dialog" aria-labelledby="tituloModalDictamen" aria-modal="true">
+    <form class="modal-contenido" id="formDictamen">
+        <div class="modal-encabezado">
+            <div>
+                <p class="eyebrow">NUEVO REGISTRO</p>
+                <h2 id="tituloModalDictamen">Registrar dictamen</h2>
+            </div>
+            <button class="modal-cerrar" type="button" aria-label="Cerrar" data-modal-close="modalDictamen"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <p class="modal-descripcion">Captura la información principal del dictamen para agregarlo al historial.</p>
+        <div class="campo">
+            <label for="fechaDictamen">Fecha del dictamen</label>
+            <input id="fechaDictamen" name="fechaDictamen" type="date" required>
+        </div>
+        <div class="campo">
+            <label for="archivoDictamen">Archivo del dictamen</label>
+            <input id="archivoDictamen" name="archivoDictamen" type="file" accept=".pdf,.doc,.docx" required>
+        </div>
+        <div class="campo">
+            <label for="tipoDictamen">Tipo de dictamen</label>
+            <select id="tipoDictamen" name="tipoDictamen" required>
+                <option value="">Selecciona una opción</option>
+                <option value="Aprobación">Aprobación</option>
+                <option value="Rechazo">Rechazo</option>
+                <option value="Observación">Con observaciones</option>
+            </select>
+        </div>
+        <div class="modal-acciones">
+            <button class="boton-secundario" type="button" data-modal-close="modalDictamen">Cancelar</button>
+            <button class="boton-principal" type="submit"><i class="fa-solid fa-floppy-disk"></i> Registrar</button>
+        </div>
+    </form>
+</div>
+
+<!-- Modal perfil -->
+<%- include('../partials/profile-modal', { usuario }) %>
+
+<!-- Scripts -->
+<%- include('../partials/scripts', { sidebar: true, scripts: ['dictamen.js'] }) %>

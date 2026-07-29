@@ -15,6 +15,9 @@ router.get('/usuario/normativa', auth, roles.soloUsuario, pages.usuarioNormativa
 //Inventario
 router.get('/usuario/inventario', auth, roles.soloUsuario, pages.usuarioInventario);
 
+//Dictámenes
+router.get('/usuario/dictamen', auth, roles.soloUsuario, pages.usuarioDictamen);
+
 //Historial
 router.get('/usuario/historial', auth, roles.soloUsuario, pages.usuarioHistorial);
 
