@@ -3,3 +3,6 @@
 .admin-actividad { min-height:315px; }
 .admin-actividad .tabla-responsive { overflow-x:auto; margin-top:22px; }
 .estado-actividad { text-transform:capitalize; }
+.admin-tabla { min-height:315px; }
+.admin-tabla a { color:var(--vino); font-weight:700; text-decoration:none; }
+.admin-tabla .tipo-archivo { position:static; }

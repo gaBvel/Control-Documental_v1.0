@@ -641,6 +641,11 @@ tbody tr:hover {
     background:rgba(24,15,20,.42);
 }
 
+.tabla-responsive {
+    width:100%;
+    overflow-x:auto;
+}
+
 @media (max-width:992px) {
     .sidebar-overlay.active { display:block; }
     .sidebar-toggle { display:none; }
