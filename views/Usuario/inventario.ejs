@@ -1,5 +1,63 @@
 <%- include('../partials/head', { title, styles }) %>
-<div class="contenedor"><%- include('../partials/sidebar', { menu, usuario }) %><main class="contenido usuario-panel">
-  <section id="seleccionInventario"><header class="usuario-encabezado"><div><p class="eyebrow">NUEVO REGISTRO</p><h1>Inventario documental</h1><span>Selecciona el periodo normativo que corresponde a tu documentación.</span></div></header><section class="inventario-pasos"><span class="paso activo">1. Selecciona el tipo</span><span class="paso">2. Completa la información</span><span class="paso">3. Envía a revisión</span></section><section class="opciones-profesionales"><article class="opcion-profesional"><span class="opcion-icono"><i class="fa-solid fa-file-circle-check"></i></span><p class="eyebrow">INVENTARIO HISTÓRICO</p><h2>Antes de la Ley de Archivo</h2><p>Para documentos generados antes de la entrada en vigor de la Ley de Archivo.</p><ul><li>Registro de fondo y sección</li><li>Clasificación documental</li></ul><button type="button" onclick="iniciarInventario('Antes de la Ley')">Seleccionar <i class="fa-solid fa-arrow-right"></i></button></article><article class="opcion-profesional destacado"><span class="opcion-icono"><i class="fa-solid fa-file-shield"></i></span><p class="eyebrow">INVENTARIO ACTUAL</p><h2>Después de la Ley de Archivo</h2><p>Para documentación bajo los lineamientos vigentes de gestión documental.</p><ul><li>Información estructurada</li><li>Validación antes del envío</li></ul><button type="button" onclick="iniciarInventario('Después de la Ley')">Seleccionar <i class="fa-solid fa-arrow-right"></i></button></article></section></section>
-  <section id="formularioInventario" class="oculto"><header class="usuario-encabezado"><div><p class="eyebrow">REGISTRO DE INVENTARIO</p><h1>Información documental</h1><span id="tipoSeleccionado"></span></div><button class="boton-secundario" type="button" onclick="location.reload()"><i class="fa-solid fa-arrow-left"></i> Cambiar tipo</button></header><form class="formulario-profesional"><div class="formulario-titulo"><span><i class="fa-solid fa-folder-tree"></i></span><div><h2>Datos de clasificación</h2><p>Completa los campos para integrar el inventario.</p></div></div><div class="campo"><label for="tipoInventario">Tipo de inventario</label><select id="tipoInventario" name="tipoInventario"><option value="">Selecciona una opción</option><option value="tramite">Archivo de Trámite</option><option value="concentracion">Archivo de Concentración</option><option value="historico">Archivo Histórico</option></select></div><div id="formTramite" hidden class="campos-grid"><div class="campo"><label for="fondo">Fondo</label><input type="text" id="fondo" name="fondo" placeholder="Ej. Poder Ejecutivo"></div><div class="campo"><label for="subfondo">Subfondo</label><input type="text" id="subfondo" name="subfondo"></div><div class="campo"><label for="seccion">Sección</label><input type="text" id="seccion" name="seccion"></div><div class="campo"><label for="serie">Serie</label><input type="text" id="serie" name="serie"></div><div class="campo"><label for="fecha">Fecha de emisión</label><input type="date" id="fecha" name="fecha"></div><div class="campo"><label for="codigo">Código</label><input type="text" id="codigo" name="codigo"></div><div class="formulario-acciones"><button type="button" class="boton-secundario">Guardar borrador</button><button type="button" class="boton-principal">Continuar <i class="fa-solid fa-arrow-right"></i></button></div></div></form></section>
-</main></div><%- include('../partials/profile-modal', { usuario }) %><%- include('../partials/scripts', { sidebar: true, scripts: ['inventario.js'] }) %>
+<div class="contenedor">
+  <%- include('../partials/sidebar', { menu, usuario }) %>
+  <main class="contenido usuario-panel">
+    <section id="seleccionInventario">
+      <header class="usuario-encabezado">
+        <div>
+          <p class="eyebrow">NUEVO REGISTRO</p>
+          <h1>Inventario documental</h1>
+          <span>¿Qué tipo de inventario va a reportar?</span>
+        </div>
+      </header>
+      <section class="inventario-pasos">
+        <span class="paso activo">1. Selecciona el tipo</span><span class="paso">2. Completa la información</span><span class="paso">3. Envía a revisión</span>
+      </section>
+      <section class="opciones-profesionales">
+        <article class="opcion-profesional">
+          <span class="opcion-icono"><i class="fa-solid fa-file-circle-check"></i></span>
+          <p class="eyebrow">INVENTARIO HISTÓRICO</p><h2>Antes de la Ley de Archivo</h2>
+          <p>Para documentos generados antes de la entrada en vigor de la Ley de Archivo.</p>
+          <ul><li>Registro de fondo y sección</li><li>Clasificación documental</li></ul>
+          <button type="button" data-tipo-inventario="Antes de la Ley">Seleccionar <i class="fa-solid fa-arrow-right"></i></button>
+        </article>
+        <article class="opcion-profesional destacado">
+          <span class="opcion-icono"><i class="fa-solid fa-file-shield"></i></span>
+          <p class="eyebrow">INVENTARIO ACTUAL</p><h2>Después de la Ley de Archivo</h2>
+          <p>Para documentar información bajo los lineamientos vigentes de gestión documental.</p>
+          <ul><li>Formato institucional</li><li>Carga de archivo CSV</li></ul>
+          <button type="button" data-tipo-inventario="Después de la Ley">Seleccionar <i class="fa-solid fa-arrow-right"></i></button>
+        </article>
+      </section>
+    </section>
+
+    <section id="formularioInventario" class="oculto">
+      <header class="usuario-encabezado">
+        <div>
+          <p class="eyebrow">REGISTRO DE INVENTARIO</p><h1>Información documental</h1><span id="tipoSeleccionado"></span>
+        </div>
+        <button class="boton-secundario" type="button" id="cambiarTipo"><i class="fa-solid fa-arrow-left"></i> Cambiar tipo</button>
+      </header>
+
+      <form id="formularioAntesLey" class="formulario-profesional">
+        <div class="formulario-titulo"><span><i class="fa-solid fa-folder-tree"></i></span><div><h2>Datos de clasificación</h2><p>Completa los campos para integrar el inventario.</p></div></div>
+        <div class="campo"><label for="tipoInventario">Tipo de inventario</label><select id="tipoInventario" name="tipoInventario"><option value="">Selecciona una opción</option><option value="tramite">Archivo de Trámite</option><option value="concentracion">Archivo de Concentración</option><option value="historico">Archivo Histórico</option></select></div>
+        <div id="formTramite" hidden class="campos-grid"><div class="campo"><label for="fondo">Fondo</label><input type="text" id="fondo" name="fondo" placeholder="Ej. Poder Ejecutivo"></div><div class="campo"><label for="subfondo">Subfondo</label><input type="text" id="subfondo" name="subfondo"></div><div class="campo"><label for="seccion">Sección</label><input type="text" id="seccion" name="seccion"></div><div class="campo"><label for="serie">Serie</label><input type="text" id="serie" name="serie"></div><div class="campo"><label for="fecha">Fecha de emisión</label><input type="date" id="fecha" name="fecha"></div><div class="campo"><label for="codigo">Código</label><input type="text" id="codigo" name="codigo"></div><div class="formulario-acciones"><button type="button" class="boton-secundario">Guardar borrador</button><button type="button" class="boton-principal">Continuar <i class="fa-solid fa-arrow-right"></i></button></div></div>
+      </form>
+
+      <form id="formularioDespuesLey" class="formulario-profesional oculto" enctype="multipart/form-data">
+        <div class="formulario-titulo"><span><i class="fa-solid fa-file-csv"></i></span><div><h2>Carga de inventario</h2><p>Descarga el formato, complétalo y carga únicamente su versión CSV.</p></div></div>
+        <a class="boton-secundario descarga-formato" href="/resources/doc/FORMATO%20INVENTARIO.xlsx" download><i class="fa-solid fa-download"></i> Descargar formato de inventario</a>
+        <div class="campos-grid">
+          <div class="campo"><label for="subfondoLey">Subfondo</label><input type="text" id="subfondoLey" name="subfondo" required></div>
+          <div class="campo"><label for="unidadAdministrativa">Unidad Administrativa</label><input type="text" id="unidadAdministrativa" name="unidadAdministrativa" required></div>
+          <div class="campo"><label for="areaGeneradora">Área Generadora</label><input type="text" id="areaGeneradora" name="areaGeneradora" required></div>
+          <div class="campo"><label for="archivoCsv">Archivo CSV</label><input type="file" id="archivoCsv" name="archivoCsv" accept=".csv,text/csv" required><small class="ayuda-campo">Solo se permiten archivos con extensión .csv.</small></div>
+          <div class="formulario-acciones"><button type="button" class="boton-principal">Enviar a revisión <i class="fa-solid fa-arrow-right"></i></button></div>
+        </div>
+      </form>
+    </section>
+  </main>
+</div>
+<%- include('../partials/profile-modal', { usuario }) %>
+<%- include('../partials/scripts', { sidebar: true, scripts: ['inventario.js'] }) %>

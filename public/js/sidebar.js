@@ -1,105 +1,68 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const sidebar = document.querySelector('[data-sidebar]');
+    const toggles = document.querySelectorAll('[data-sidebar-toggle]');
+    if (!sidebar || !toggles.length) return;
 
-document.addEventListener("DOMContentLoaded", () => {
-    const sidebar = document.getElementById("sidebar");
-    const btnSidebar = document.getElementById("btnSidebar");
-    if (!sidebar || !btnSidebar) return;
-    const STORAGE_KEY = "scd_sidebar";
+    const STORAGE_KEY = 'scd_sidebar';
     const MOBILE_WIDTH = 992;
-    let overlay = document.getElementById("sidebarOverlay");
+    const overlay = document.createElement('div');
+    overlay.className = 'sidebar-overlay';
+    document.body.appendChild(overlay);
 
-    /* Cerrar Overlay */
-    if (!overlay) {
-        overlay = document.createElement("div");
-        overlay.id = "sidebarOverlay";
-        overlay.className = "sidebar-overlay";
-        document.body.appendChild(overlay);
+    const isMobile = () => window.innerWidth <= MOBILE_WIDTH;
+
+    function actualizarControl() {
+        const contraida = sidebar.classList.contains('collapsed');
+        toggles.forEach((toggle) => {
+            const esMovil = toggle.classList.contains('sidebar-mobile-toggle');
+            toggle.setAttribute('aria-expanded', esMovil ? String(sidebar.classList.contains('show')) : String(!contraida));
+            toggle.setAttribute('aria-label', esMovil ? (sidebar.classList.contains('show') ? 'Cerrar barra lateral' : 'Abrir barra lateral') : (contraida ? 'Expandir barra lateral' : 'Contraer barra lateral'));
+            if (!esMovil) {
+                toggle.setAttribute('title', contraida ? 'Expandir barra lateral' : 'Contraer barra lateral');
+                toggle.querySelector('i').className = contraida ? 'fa-solid fa-angle-right' : 'fa-solid fa-angle-left';
+            }
+        });
     }
 
-    /* Detectar Movil */
-    function isMobile() {
-        return window.innerWidth <= MOBILE_WIDTH;
+    function cerrarMovil() {
+        sidebar.classList.remove('show');
+        overlay.classList.remove('active');
+        actualizarControl();
     }
 
-/* Guardar Estado */
-    function saveState() {
-        localStorage.setItem(
-            STORAGE_KEY,
-            sidebar.classList.contains("collapsed")
-                ? "collapsed"
-                : "expanded"
-        );
-    }
-
-/* Cargar Estado */
-    function loadState() {
+    function cargarEstado() {
         if (isMobile()) {
-            sidebar.classList.remove("collapsed");
-            sidebar.classList.remove("show");
-            overlay.classList.remove("active");
+            sidebar.classList.remove('collapsed');
+            cerrarMovil();
+        } else {
+            sidebar.classList.toggle('collapsed', localStorage.getItem(STORAGE_KEY) === 'collapsed');
+            cerrarMovil();
+        }
+        actualizarControl();
+    }
+
+    toggles.forEach((toggle) => toggle.addEventListener('click', () => {
+        if (isMobile()) {
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('active');
+            actualizarControl();
             return;
         }
-        const state = localStorage.getItem(STORAGE_KEY);
-        if (state === "collapsed") {
-            sidebar.classList.add("collapsed");
-        }
-    }
 
-    /* Desktop */
-    function toggleDesktop() {
-        sidebar.classList.toggle("collapsed");
-        saveState();
-    }
+        if (toggle.classList.contains('sidebar-mobile-toggle')) return;
+        sidebar.classList.toggle('collapsed');
+        localStorage.setItem(STORAGE_KEY, sidebar.classList.contains('collapsed') ? 'collapsed' : 'expanded');
+        actualizarControl();
+    }));
 
-    /* Mobile */
-    function toggleMobile() {
-        sidebar.classList.toggle("show");
-        overlay.classList.toggle("active");
-    }
-
-    /* Boton */
-    btnSidebar.addEventListener("click", () => {
-        if (isMobile()) {
-            toggleMobile();
-        } else {
-            toggleDesktop();
-        }
+    overlay.addEventListener('click', cerrarMovil);
+    document.addEventListener('keydown', (evento) => {
+        if (evento.key === 'Escape' && isMobile()) cerrarMovil();
     });
+    window.addEventListener('resize', cargarEstado);
+    document.querySelectorAll('.menu-item').forEach((enlace) => enlace.addEventListener('click', () => {
+        if (isMobile()) cerrarMovil();
+    }));
 
-    /* Cerrar con Overlay */
-    overlay.addEventListener("click", () => {
-        sidebar.classList.remove("show");
-        overlay.classList.remove("active");
-    });
-
-    /* ESC */
-    document.addEventListener("keydown", (e) => {
-        if (e.key !== "Escape") return;
-        if (isMobile()) {
-            sidebar.classList.remove("show");
-            overlay.classList.remove("active");
-        }
-    });
-
-    /* Cambio de tamaño */
-    window.addEventListener("resize", () => {
-        if (!isMobile()) {
-            sidebar.classList.remove("show");
-            overlay.classList.remove("active");
-            loadState();
-        } else {
-            sidebar.classList.remove("collapsed");
-        }
-    });
-
-    /* Cerrar al hacer click en un link (mobile) */
-    document.querySelectorAll(".menu-item").forEach(link => {
-        link.addEventListener("click", () => {
-            if (!isMobile()) return;
-            sidebar.classList.remove("show");
-            overlay.classList.remove("active");
-        });
-    });
-
-    /* Inicializar */
-    loadState();
+    cargarEstado();
 });

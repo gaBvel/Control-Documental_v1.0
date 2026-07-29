@@ -1,5 +1,8 @@
 <!-- Componente Sidebar -->
-<aside class="sidebar" id="sidebar">
+<button class="sidebar-mobile-toggle" type="button" data-sidebar-toggle aria-label="Abrir barra lateral" aria-expanded="false">
+    <i class="fa-solid fa-bars"></i>
+</button>
+<aside class="sidebar" id="sidebar" data-sidebar>
     <div class="logo">
         <div class="logo-icon">
             <img src="/resources/img/star.ico" alt="SCD">
@@ -9,6 +12,10 @@
             <h2>SCD</h2>
             <span>Sistema de Control Documental</span>
         </div>
+
+        <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-label="Contraer barra lateral" aria-expanded="true" title="Contraer barra lateral">
+            <i class="fa-solid fa-angle-left"></i>
+        </button>
     </div>
 
     <nav class="menu menu-principal">

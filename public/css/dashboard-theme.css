@@ -609,3 +609,55 @@ tbody tr:hover {
         flex-direction:column; 
     } 
 }
+
+/* Control reutilizable de la barra lateral. El área principal conserva el espacio disponible al contraerla. */
+.logo { position:relative; }
+
+.sidebar-toggle {
+    display:grid;
+    width:30px;
+    height:30px;
+    flex:0 0 30px;
+    place-items:center;
+    margin-left:auto;
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:9px;
+    background:rgba(255,255,255,.12);
+    color:#fff;
+    cursor:pointer;
+    transition:background .2s, transform .2s;
+}
+
+.sidebar-toggle:hover { background:rgba(255,255,255,.22); }
+.sidebar-mobile-toggle { display:none; }
+.contenido { transition:padding .28s ease; }
+.sidebar.collapsed .sidebar-toggle { margin:0 auto; }
+
+.sidebar-overlay {
+    position:fixed;
+    z-index:998;
+    inset:0;
+    display:none;
+    background:rgba(24,15,20,.42);
+}
+
+@media (max-width:992px) {
+    .sidebar-overlay.active { display:block; }
+    .sidebar-toggle { display:none; }
+    .sidebar-mobile-toggle {
+        position:fixed;
+        z-index:997;
+        top:16px;
+        left:16px;
+        display:grid;
+        width:42px;
+        height:42px;
+        place-items:center;
+        border:0;
+        border-radius:11px;
+        background:var(--vino);
+        color:#fff;
+        box-shadow:var(--sombra);
+        cursor:pointer;
+    }
+}
