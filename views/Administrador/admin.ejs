@@ -1,54 +1,29 @@
-<!-- Head -->
 <%- include('../partials/head', { title, styles }) %>
-
 <div class="contenedor">
-    <!-- Sidebar -->
     <%- include('../partials/sidebar', { menu, usuario }) %>
-    
-    <main class="contenido">
-        <header>
-            <h1>Bienvenido, <%= usuario.nombre %></h1>
-            <p>Panel de administración</p>
-        </header>
-        
-        <section class="cards">
-            <% [['users','Usuarios registrados'],['folder-open','Inventarios'],['file-signature','Dictámenes'],['clock','Pendientes']].forEach(card => { %>
-                <div class="card">
-                    <i class="fa-solid fa-<%= card[0] %>"></i>
-                    <div>
-                        <h2>0</h2>
-                        <p><%= card[1] %></p>
-                    </div>
-                </div>
-            <% }) %>
-        </section>
-        
-        <section class="tabla">
-            <div class="titulo">
-                <h2>Actividad reciente del sistema</h2>
+    <main class="contenido usuario-panel">
+        <header class="usuario-encabezado">
+            <div>
+                <p class="eyebrow">ADMINISTRACIÓN DEL SISTEMA</p>
+                <h1>Bienvenido, <%= usuario.nombre %></h1>
+                <span>Consulta el estado general de la gestión documental.</span>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Usuario</th>
-                        <th>Acción</th>
-                        <th>Módulo</th>
-                        <th>Fecha y hora</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="5">Aún no hay actividad registrada.</td>
-                    </tr>
-                </tbody>
-            </table>
+        </header>
+
+        <section class="usuario-resumen">
+            <article class="usuario-metrica"><span class="metrica-icono"><i class="fa-solid fa-users"></i></span><div><small>Usuarios registrados</small><strong><%= resumen.usuarios %></strong><p>Accesos activos en el sistema</p></div></article>
+            <article class="usuario-metrica"><span class="metrica-icono enviado"><i class="fa-solid fa-folder-open"></i></span><div><small>Inventarios</small><strong><%= resumen.inventarios %></strong><p>Registros documentales recibidos</p></div></article>
+            <article class="usuario-metrica aprobado"><span class="metrica-icono aprobado"><i class="fa-solid fa-file-signature"></i></span><div><small>Dictámenes</small><strong><%= resumen.dictamenes %></strong><p>Dictámenes registrados</p></div></article>
+            <article class="usuario-metrica"><span class="metrica-icono rechazado"><i class="fa-solid fa-clock"></i></span><div><small>Pendientes</small><strong><%= resumen.pendientes %></strong><p>En espera de validación</p></div></article>
+        </section>
+
+        <section class="usuario-tabla tabla admin-actividad">
+            <div class="usuario-seccion-titulo"><div><p class="eyebrow">SEGUIMIENTO</p><h2>Actividad reciente del sistema</h2><span>Movimientos más recientes en inventarios y dictámenes.</span></div><span class="contador-registros"><%= actividad.length %> movimientos</span></div>
+            <div class="tabla-responsive"><table><thead><tr><th>Usuario</th><th>Acción</th><th>Módulo</th><th>Fecha y hora</th><th>Estado</th></tr></thead><tbody>
+                <% if (actividad.length) { actividad.forEach(item => { %><tr><td><%= item.usuario %></td><td><%= item.accion %></td><td><%= item.modulo %></td><td><%= new Date(item.fecha).toLocaleString('es-MX') %></td><td><span class="<%= item.estatus %> estado-actividad"><%= item.estatus %></span></td></tr><% }) } else { %><tr class="fila-vacia"><td colspan="5"><div class="estado-vacio estado-vacio-tabla"><span><i class="fa-solid fa-clock-rotate-left"></i></span><h3>Aún no hay actividad registrada</h3><p>Los movimientos del sistema aparecerán aquí.</p></div></td></tr><% } %>
+            </tbody></table></div>
         </section>
     </main>
 </div>
-
-<!-- Modal perfil -->
 <%- include('../partials/profile-modal', { usuario }) %>
-
-<!-- Scripts -->
 <%- include('../partials/scripts', { sidebar: true, scripts: [] }) %>

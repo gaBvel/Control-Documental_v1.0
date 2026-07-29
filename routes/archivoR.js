@@ -8,7 +8,7 @@ const pages = require('../controllers/pageController');
 const documental = require('../controllers/documentalController');
 
 //Ruta principal
-router.get('/archivo', auth, roles.soloArchivo, pages.archivo);
+router.get('/archivo', auth, roles.soloArchivo, documental.archivo);
 
 router.get('/archivo/historial', auth, roles.soloArchivo, documental.historialArchivo);
 

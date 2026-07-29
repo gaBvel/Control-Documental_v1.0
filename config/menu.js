@@ -16,11 +16,18 @@ const menus = {
         },
 
         {
+            id:"dictamen",
+            name:"Dictamen",
+            icon:"fa-solid fa-book",
+            url:"/director/dictamen"
+        },
+
+        {
             id:"historial",
             name:"Historial",
             icon:"fa-solid fa-clock-rotate-left",
             url:"/director/historial"
-        }
+        },
     ],
 
     Archivo:[
@@ -89,6 +96,34 @@ const menus = {
             name:"Inicio",
             icon:"fa-solid fa-house",
             url:"/admin"
+        },
+
+        {
+            id:"usuarios",
+            name:"Usuarios",
+            icon:"fa-solid fa-user",
+            url:"/admin/usuarios"
+        },
+
+        {
+            id:"inventarios",
+            name:"Inventarios",
+            icon:"fa-solid fa-book",
+            url:"/admin/inventarios"
+        },
+
+        {
+            id:"dictamen",
+            name:"Dictamen",
+            icon:"fa-solid fa-book",
+            url:"/admin/dictamen"
+        },
+
+        {
+            id:"historial",
+            name:"Historial",
+            icon:"fa-solid fa-clock-rotate-left",
+            url:"/admin/historial"
         }
     ]
 };

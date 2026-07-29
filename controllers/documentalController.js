@@ -64,7 +64,45 @@ async function usuario(req, res) {
     const [conteos] = await pool.query(`SELECT estatus, COUNT(*) total FROM registro_inventario WHERE id_usuario = ? GROUP BY estatus`, [req.session.usuario.id]);
     const resumen = { pendiente: 0, aprobado: 0, rechazado: 0 };
     conteos.forEach((fila) => { resumen[fila.estatus] = fila.total; });
-    res.render('Usuario/usuario', { title: 'Panel Usuario', active: 'dashboard', styles: ['Usuario/usuario.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Usuario', 'dashboard'), resumen });
+    const [recientes] = await pool.query('SELECT * FROM registro_inventario WHERE id_usuario = ? ORDER BY fecha_envio DESC LIMIT 5', [req.session.usuario.id]);
+    res.render('Usuario/usuario', { title: 'Panel Usuario', active: 'dashboard', styles: ['Usuario/usuario.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Usuario', 'dashboard'), resumen, recientes });
+}
+
+async function resumenGlobal() {
+    const [[total], [conteos], [dictamenes]] = await Promise.all([
+        pool.query('SELECT COUNT(*) AS total FROM registro_inventario'),
+        pool.query('SELECT estatus, COUNT(*) AS total FROM registro_inventario GROUP BY estatus'),
+        pool.query('SELECT COUNT(*) AS total FROM dictamen')
+    ]);
+    const resumen = { total: total[0].total, pendiente: 0, aprobado: 0, rechazado: 0, dictamenes: dictamenes[0].total };
+    conteos.forEach((fila) => { resumen[fila.estatus] = fila.total; });
+    return resumen;
+}
+
+async function archivo(req, res) {
+    const [resumen, recientes] = await Promise.all([
+        resumenGlobal(),
+        pool.query(`SELECT r.*, u.nombre FROM registro_inventario r INNER JOIN usuarios_sistema u ON u.id = r.id_usuario WHERE r.estatus = 'pendiente' ORDER BY r.fecha_envio ASC LIMIT 5`)
+    ]);
+    res.render('Archivo/archivo', { title: 'Panel Archivo', active: 'dashboard', styles: ['Archivo/archivo.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Archivo', 'dashboard'), resumen, recientes: recientes[0] });
+}
+
+async function director(req, res) {
+    const [resumen, recientes] = await Promise.all([
+        resumenGlobal(),
+        pool.query(`SELECT r.*, u.nombre FROM registro_inventario r INNER JOIN usuarios_sistema u ON u.id = r.id_usuario ORDER BY r.fecha_envio DESC LIMIT 5`)
+    ]);
+    res.render('Director/director', { title: 'Panel Director', active: 'dashboard', styles: ['Director/director.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Director', 'dashboard'), resumen, recientes: recientes[0] });
+}
+
+async function inventariosDirector(req, res) {
+    const [inventarios] = await pool.query(`SELECT r.*, u.nombre FROM registro_inventario r INNER JOIN usuarios_sistema u ON u.id = r.id_usuario ORDER BY r.fecha_envio DESC`);
+    res.render('Director/inventario', { title: 'Control de inventarios', active: 'inventario', styles: ['Director/inventario.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Director', 'inventario'), inventarios });
+}
+
+async function historialDirector(req, res) {
+    const [inventarios] = await pool.query(`SELECT r.*, u.nombre FROM registro_inventario r INNER JOIN usuarios_sistema u ON u.id = r.id_usuario ORDER BY COALESCE(r.fecha_revision, r.fecha_envio) DESC`);
+    res.render('Director/historial', { title: 'Historial del Director', active: 'historial', styles: ['Director/historial.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Director', 'historial'), inventarios });
 }
 
 async function historialUsuario(req, res) {
@@ -121,4 +159,4 @@ async function registrarDictamen(req, res) {
     res.redirect('/usuario/dictamen');
 }
 
-module.exports = { csvUpload, documentUpload, usuario, historialUsuario, registrarInventario, revisionArchivo, historialArchivo, actualizarEstatus, paginaDictamen, registrarDictamen };
+module.exports = { csvUpload, documentUpload, usuario, historialUsuario, registrarInventario, archivo, director, inventariosDirector, historialDirector, revisionArchivo, historialArchivo, actualizarEstatus, paginaDictamen, registrarDictamen };
