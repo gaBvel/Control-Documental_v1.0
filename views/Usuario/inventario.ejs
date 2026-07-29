@@ -45,7 +45,7 @@
         <div id="formTramite" hidden class="campos-grid"><div class="campo"><label for="fondo">Fondo</label><input type="text" id="fondo" name="fondo" placeholder="Ej. Poder Ejecutivo"></div><div class="campo"><label for="subfondo">Subfondo</label><input type="text" id="subfondo" name="subfondo"></div><div class="campo"><label for="seccion">Sección</label><input type="text" id="seccion" name="seccion"></div><div class="campo"><label for="serie">Serie</label><input type="text" id="serie" name="serie"></div><div class="campo"><label for="fecha">Fecha de emisión</label><input type="date" id="fecha" name="fecha"></div><div class="campo"><label for="codigo">Código</label><input type="text" id="codigo" name="codigo"></div><div class="formulario-acciones"><button type="button" class="boton-secundario">Guardar borrador</button><button type="button" class="boton-principal">Continuar <i class="fa-solid fa-arrow-right"></i></button></div></div>
       </form>
 
-      <form id="formularioDespuesLey" class="formulario-profesional oculto" enctype="multipart/form-data">
+      <form id="formularioDespuesLey" class="formulario-profesional oculto" action="/usuario/inventario" method="post" enctype="multipart/form-data">
         <div class="formulario-titulo"><span><i class="fa-solid fa-file-csv"></i></span><div><h2>Carga de inventario</h2><p>Descarga el formato, complétalo y carga únicamente su versión CSV.</p></div></div>
         <a class="boton-secundario descarga-formato" href="/resources/doc/FORMATO%20INVENTARIO.xlsx" download><i class="fa-solid fa-download"></i> Descargar formato de inventario</a>
         <div class="campos-grid">
@@ -53,7 +53,7 @@
           <div class="campo"><label for="unidadAdministrativa">Unidad Administrativa</label><input type="text" id="unidadAdministrativa" name="unidadAdministrativa" required></div>
           <div class="campo"><label for="areaGeneradora">Área Generadora</label><input type="text" id="areaGeneradora" name="areaGeneradora" required></div>
           <div class="campo"><label for="archivoCsv">Archivo CSV</label><input type="file" id="archivoCsv" name="archivoCsv" accept=".csv,text/csv" required><small class="ayuda-campo">Solo se permiten archivos con extensión .csv.</small></div>
-          <div class="formulario-acciones"><button type="button" class="boton-principal">Enviar a revisión <i class="fa-solid fa-arrow-right"></i></button></div>
+          <div class="formulario-acciones"><button type="submit" class="boton-principal">Enviar a revisión <i class="fa-solid fa-arrow-right"></i></button></div>
         </div>
       </form>
     </section>

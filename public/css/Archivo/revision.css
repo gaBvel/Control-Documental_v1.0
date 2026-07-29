@@ -1,1 +1,7 @@
 @import url('/resources/css/Usuario/usuario.css');
+
+.acciones-registro { display:flex; gap:8px; }
+.acciones-registro form { margin:0; }
+.accion-icono { display:grid; width:32px; height:32px; place-items:center; border:0; border-radius:8px; cursor:pointer; }
+.accion-icono.aprobar { background:#dcf5e6; color:#177441; }
+.accion-icono.rechazar { background:#fde4e7; color:#b42334; }

@@ -35,8 +35,17 @@
                             <th>Notas u observaciones</th>
                         </tr>
                     </thead>
-                    <tbody id="tablaDictamenes">
-                        <tr class="fila-vacia">
+                    <tbody>
+                        <% if (dictamenes.length) { dictamenes.forEach(dictamen => { %>
+                        <tr>
+                            <td><%= new Date(dictamen.fecha_dictamen).toLocaleDateString('es-MX') %></td>
+                            <td><a href="<%= dictamen.archivo_dictamen %>" target="_blank"><i class="fa-solid fa-file-lines"></i> Ver archivo</a></td>
+                            <td><span class="pendiente"><%= dictamen.tipo_dictamen %></span></td>
+                            <td><%= dictamen.archivo_acta ? 'Adjunto' : 'Sin archivo' %></td>
+                            <td><%= dictamen.evidencia ? 'Adjunta' : 'Sin evidencia' %></td>
+                            <td><%= dictamen.observacion || 'Sin observaciones' %></td>
+                        </tr>
+                        <% }) } else { %><tr class="fila-vacia">
                             <td colspan="6">
                                 <div class="estado-vacio estado-vacio-tabla">
                                     <span><i class="fa-solid fa-file-circle-check"></i></span>
@@ -44,7 +53,7 @@
                                     <p>Registra un dictamen para iniciar el seguimiento documental.</p>
                                 </div>
                             </td>
-                        </tr>
+                        </tr><% } %>
                     </tbody>
                 </table>
             </div>
@@ -54,7 +63,7 @@
 
 <!-- Modal formulario -->
 <div class="modal modal-formulario" id="modalDictamen" aria-hidden="true" role="dialog" aria-labelledby="tituloModalDictamen" aria-modal="true">
-    <form class="modal-contenido" id="formDictamen">
+    <form class="modal-contenido" id="formDictamen" action="/usuario/dictamen" method="post" enctype="multipart/form-data">
         <div class="modal-encabezado">
             <div>
                 <p class="eyebrow">NUEVO REGISTRO</p>
@@ -67,6 +76,9 @@
             <label for="fechaDictamen">Fecha del dictamen</label>
             <input id="fechaDictamen" name="fechaDictamen" type="date" required>
         </div>
+        <div class="campo"><label for="archivoActa">Archivo del acta <small>(opcional)</small></label><input id="archivoActa" name="archivoActa" type="file" accept=".pdf,.doc,.docx"></div>
+        <div class="campo"><label for="evidencia">Evidencia <small>(opcional)</small></label><input id="evidencia" name="evidencia" type="file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"></div>
+        <div class="campo"><label for="observacion">Notas u observaciones</label><input id="observacion" name="observacion" type="text" maxlength="1000"></div>
         <div class="campo">
             <label for="archivoDictamen">Archivo del dictamen</label>
             <input id="archivoDictamen" name="archivoDictamen" type="file" accept=".pdf,.doc,.docx" required>
