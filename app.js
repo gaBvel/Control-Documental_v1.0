@@ -36,7 +36,6 @@ app.use(require('./routes/usuarioR'));
 app.use(require('./routes/directorR'));
 app.use(require('./routes/adminR'));
 
-
 app.get('/', (req, res) => {
     res.render('login/login', {
         title: 'Sistema de Control Documental',
