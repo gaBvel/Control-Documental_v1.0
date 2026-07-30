@@ -20,28 +20,12 @@
                     Ingresa tus credenciales para continuar
                 </p>
 
-                <% if (locals.error) { %>
-                    <div class="alert-error" style=
-                        "background-color: #f8d7da;
-                        color: #842029;
-                        padding: 10px;
-                        border-radius: 6px;
-                        margin-bottom: 15px;
-                        font-size: 0.9rem;
-                        display: flex;
-                        align-items: center;
-                        gap: 8px;" >
-                        <i class="fa-solid fa-circle-exclamation"></i>
-                        <span><%= error %></span>
-                    </div>
-                <% } %>
-
-                <form action="/login" method="POST">
+                <form action="/login" method="POST" id="loginForm" novalidate>
                     <div class="input-group">
                         <label>Correo electrónico</label>
                         <div class="input-box">
                             <i class="fa-solid fa-envelope"></i>
-                            <input 
+                            <input id="correo"
                                 type="email" 
                                 name="correo" 
                                 placeholder="usuario@correo.com"
@@ -54,7 +38,7 @@
                         <label>Contraseña</label>
                         <div class="input-box">
                             <i class="fa-solid fa-lock"></i>
-                            <input 
+                            <input id="password"
                                 type="password" 
                                 name="password" 
                                 placeholder="Ingrese su contraseña"
@@ -62,10 +46,11 @@
                             >
                         </div>
                     </div>
+                    <div id="loginMessage" class="login-message" role="alert" aria-live="polite"></div>
                     <button class="btn-login" type="submit">Ingresar</button>
                 </form>
             </div>
         </div>
     </div>
     
-<%- include('../partials/scripts', { sidebar: false, scripts: [] }) %>
+<%- include('../partials/scripts', { sidebar: false, scripts: ['login.js'] }) %>

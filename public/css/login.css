@@ -133,3 +133,22 @@ body{
     .right-panel{flex: 1;}
     .login-card{width: 90%;}
 }
+
+.input-box.input-error input{
+    border-color:#c33145;
+    box-shadow:0 0 0 4px rgba(195,49,69,.12);
+}
+
+.input-box.input-error i:first-child{ color:#c33145; }
+
+.login-message{
+    display:none;
+    margin:-9px 0 18px;
+    padding:10px 12px;
+    border-radius:9px;
+    font-size:14px;
+}
+
+.login-message.error,.login-message.success{ display:block; }
+.login-message.error{ background:#fde9ec; color:#a32436; }
+.login-message.success{ background:#e5f6eb; color:#18733b; }

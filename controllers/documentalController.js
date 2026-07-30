@@ -152,6 +152,11 @@ async function paginaDictamen(req, res) {
     res.render('Usuario/dictamen', { title: 'Dictámenes', active: 'dictamen', styles: ['Usuario/dictamen.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Usuario', 'dictamen'), dictamenes });
 }
 
+async function paginaDictamenArchivo(req, res) {
+    const [dictamenes] = await pool.query('SELECT * FROM dictamen ORDER BY fecha_dictamen DESC, id DESC');
+    res.render('Archivo/dictamen', { title: 'Dictámenes', active: 'dictamen', styles: ['Usuario/dictamen.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Archivo', 'dictamen'), dictamenes });
+}
+
 async function registrarDictamen(req, res) {
     if (!req.files?.archivoDictamen?.[0]) return res.status(400).send('El archivo del dictamen es requerido.');
     const archivo = (nombre) => req.files?.[nombre]?.[0] ? `/resources/uploads/${req.files[nombre][0].filename}` : null;
@@ -159,4 +164,4 @@ async function registrarDictamen(req, res) {
     res.redirect('/usuario/dictamen');
 }
 
-module.exports = { csvUpload, documentUpload, usuario, historialUsuario, registrarInventario, archivo, director, inventariosDirector, historialDirector, revisionArchivo, historialArchivo, actualizarEstatus, paginaDictamen, registrarDictamen };
+module.exports = { csvUpload, documentUpload, usuario, historialUsuario, registrarInventario, archivo, director, inventariosDirector, historialDirector, revisionArchivo, historialArchivo, actualizarEstatus, paginaDictamen, paginaDictamenArchivo, registrarDictamen };

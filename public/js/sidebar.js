@@ -64,5 +64,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isMobile()) cerrarMovil();
     }));
 
+    const encabezado = document.querySelector('.contenido > header');
+    const controlEscritorio = document.querySelector('.sidebar-toggle');
+    if (encabezado && controlEscritorio) encabezado.prepend(controlEscritorio);
+
+    const modalLogout = document.getElementById('modalCerrarSesion');
+    const mostrarLogout = () => { modalLogout.style.display = 'flex'; modalLogout.setAttribute('aria-hidden', 'false'); };
+    const cerrarLogout = () => { modalLogout.style.display = 'none'; modalLogout.setAttribute('aria-hidden', 'true'); };
+    document.querySelectorAll('[data-logout-open]').forEach((boton) => boton.addEventListener('click', mostrarLogout));
+    document.querySelectorAll('[data-logout-close]').forEach((boton) => boton.addEventListener('click', cerrarLogout));
+    modalLogout?.addEventListener('click', (evento) => { if (evento.target === modalLogout) cerrarLogout(); });
+
     cargarEstado();
 });

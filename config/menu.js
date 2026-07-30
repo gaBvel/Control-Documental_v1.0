@@ -46,6 +46,13 @@ const menus = {
         },
 
         {
+            id:"dictamen",
+            name:"Dictamen",
+            icon:"fa-solid fa-book",
+            url:"/archivo/dictamen"
+        },
+
+        {
             id:"historial",
             name:"Historial",
             icon:"fa-solid fa-clock-rotate-left",

@@ -1,7 +1,9 @@
-<!-- Componente Sidebar -->
+<!-- Abrir sidebar -->
 <button class="sidebar-mobile-toggle" type="button" data-sidebar-toggle aria-label="Abrir barra lateral" aria-expanded="false">
     <i class="fa-solid fa-bars"></i>
 </button>
+
+<!-- Componente Sidebar -->
 <aside class="sidebar" id="sidebar" data-sidebar>
     <div class="logo">
         <div class="logo-icon">
@@ -13,6 +15,7 @@
             <span>Sistema de Control Documental</span>
         </div>
 
+        <!-- Contraer Sidebar -->
         <button 
             class="sidebar-toggle"
             type="button" 
@@ -45,9 +48,22 @@
             <i class="fa-solid fa-chevron-right perfil-flecha"></i>
         </button>
 
-        <a href="/logout" class="logout">
+        <button type="button" class="logout" data-logout-open>
             <i class="fa-solid fa-right-from-bracket"></i>
             <span>Cerrar sesión</span>
-        </a>
+        </button>
     </div>
 </aside>
+
+<div class="modal modal-confirmacion" id="modalCerrarSesion" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="tituloCerrarSesion">
+    <div class="confirmacion-contenido">
+        <span class="confirmacion-icono"><i class="fa-solid fa-right-from-bracket"></i></span>
+        <h2 id="tituloCerrarSesion">¿Cerrar sesión?</h2>
+        <p>Se cerrará tu sesión actual en el Sistema de Control Documental.</p>
+        <div class="confirmacion-acciones"><button type="button" class="boton-secundario" data-logout-close>Cancelar</button><form action="/logout" method="post"><button type="submit" class="boton-principal">Sí, cerrar sesión</button></form></div>
+    </div>
+</div>
+
+<div class="modal modal-visor" id="modalVisorArchivo" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="tituloVisorArchivo">
+    <div class="visor-contenido"><div class="visor-encabezado"><h2 id="tituloVisorArchivo">Vista previa del archivo</h2><button type="button" class="modal-cerrar" data-file-close aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button></div><iframe id="visorArchivo" title="Vista previa del archivo"></iframe><p class="visor-ayuda">Si el formato no se muestra correctamente, <a id="enlaceDescargaArchivo" target="_blank" rel="noopener">ábrelo en una nueva pestaña</a>.</p></div>
+</div>
