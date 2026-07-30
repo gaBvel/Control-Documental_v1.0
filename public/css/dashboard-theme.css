@@ -661,15 +661,9 @@ tbody tr:hover {
 .confirmacion-acciones button { min-height:42px; border:0; border-radius:10px; padding:0 14px; font-weight:700; cursor:pointer; }
 .confirmacion-acciones .boton-secundario { background:#f1f3f6; color:#44505f; }
 .confirmacion-acciones .boton-principal { background:var(--vino); color:#fff; }
-.visor-contenido { width:min(100%,960px); max-height:90vh; padding:20px; border-radius:20px; background:#fff; box-shadow:0 25px 80px rgba(0,0,0,.28); }
-.visor-encabezado { display:flex; align-items:center; justify-content:space-between; gap:15px; margin-bottom:15px; }
-.visor-encabezado h2 { margin:0; font-size:19px; color:var(--texto); }
-.visor-encabezado .modal-cerrar { position:static; background:#f1f3f6; color:var(--texto); cursor:pointer; }
-#visorArchivo { display:block; width:100%; height:min(66vh,650px); border:1px solid var(--borde); border-radius:10px; background:#f8f9fb; }
-.visor-ayuda { margin:12px 0 0; color:var(--texto-secundario); font-size:13px; }
-.visor-ayuda a { color:var(--vino); font-weight:700; }
-.boton-ver-archivo { display:inline-grid; width:35px; height:35px; place-items:center; border:0; border-radius:9px; background:#f8e9ed; color:var(--vino); font-size:15px; cursor:pointer; }
-.boton-ver-archivo:hover { background:var(--vino); color:#fff; }
+.boton-ver-archivo { display:none; }
+.archivo-enlace { display:inline-flex; align-items:center; gap:7px; color:var(--vino); font-size:13px; font-weight:700; text-decoration:none; }
+.archivo-enlace:hover { color:#85283b; text-decoration:underline; }
 
 .tabla-responsive {
     width:100%;
