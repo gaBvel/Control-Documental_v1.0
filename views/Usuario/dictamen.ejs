@@ -33,6 +33,7 @@
                             <th>Archivo del acta</th>
                             <th>Evidencia</th>
                             <th>Notas u observaciones</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,9 +45,10 @@
                             <td><% if (dictamen.archivo_acta) { %><button class="boton-ver-archivo" type="button" data-file-view="<%= dictamen.archivo_acta %>" title="Ver acta" aria-label="Ver acta"><i class="fa-solid fa-eye"></i></button><% } else { %>Sin archivo<% } %></td>
                             <td><% if (dictamen.evidencia) { %><button class="boton-ver-archivo" type="button" data-file-view="<%= dictamen.evidencia %>" title="Ver evidencia" aria-label="Ver evidencia"><i class="fa-solid fa-eye"></i></button><% } else { %>Sin evidencia<% } %></td>
                             <td><%= dictamen.observacion || 'Sin observaciones' %></td>
+                            <td class="acciones-registro"><form action="/usuario/dictamen/<%= dictamen.id %>/eliminar" method="post" onsubmit="return confirm('¿Eliminar este dictamen?');"><button class="accion-icono eliminar" title="Eliminar" aria-label="Eliminar"><i class="fa-solid fa-trash"></i></button></form></td>
                         </tr>
                         <% }) } else { %><tr class="fila-vacia">
-                            <td colspan="6">
+                            <td colspan="7">
                                 <div class="estado-vacio estado-vacio-tabla">
                                     <span><i class="fa-solid fa-file-circle-check"></i></span>
                                     <h3>No hay dictámenes registrados</h3>
@@ -63,7 +65,7 @@
 
 <!-- Modal formulario -->
 <div class="modal modal-formulario" id="modalDictamen" aria-hidden="true" role="dialog" aria-labelledby="tituloModalDictamen" aria-modal="true">
-    <form class="modal-contenido" id="formDictamen" action="/usuario/dictamen" method="post" enctype="multipart/form-data">
+    <form class="modal-contenido" id="formDictamen" action="<%= typeof formAction !== 'undefined' ? formAction : '/usuario/dictamen' %>" method="post" enctype="multipart/form-data">
         <div class="modal-encabezado">
             <div>
                 <p class="eyebrow">NUEVO REGISTRO</p>

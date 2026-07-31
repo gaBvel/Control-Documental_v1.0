@@ -662,8 +662,13 @@ tbody tr:hover {
 .confirmacion-acciones .boton-secundario { background:#f1f3f6; color:#44505f; }
 .confirmacion-acciones .boton-principal { background:var(--vino); color:#fff; }
 .boton-ver-archivo { display:none; }
-.archivo-enlace { display:inline-flex; align-items:center; gap:7px; color:var(--vino); font-size:13px; font-weight:700; text-decoration:none; }
-.archivo-enlace:hover { color:#85283b; text-decoration:underline; }
+.archivo-acciones { display:inline-flex; align-items:center; gap:10px; }
+.archivo-enlace { display:inline-grid; width:30px; height:30px; place-items:center; border-radius:8px; color:var(--vino); background:#f8e9ed; font-size:13px; text-decoration:none; }
+.archivo-enlace:hover { color:#fff; background:#85283b; }
+.acciones-registro { display:inline-flex; gap:8px; }
+.acciones-registro form { margin:0; }
+.accion-icono { display:grid; width:32px; height:32px; place-items:center; border:0; border-radius:8px; cursor:pointer; }
+.accion-icono.eliminar { background:#fde4e7; color:#b42334; }
 
 .tabla-responsive {
     width:100%;

@@ -1,6 +1,144 @@
+<!-- Head(encabezado) -->
 <%- include('../partials/head', { title, styles }) %>
-<div class="contenedor"><%- include('../partials/sidebar', { menu, usuario }) %><main class="contenido usuario-panel">
-  <header class="usuario-encabezado"><div><p class="eyebrow">MI ESPACIO DE TRABAJO</p><h1>Bienvenido, <%= usuario.nombre %></h1><span>Consulta, crea y da seguimiento a tus inventarios documentales.</span></div><a class="boton-principal" href="/usuario/inventario"><i class="fa-solid fa-plus"></i> Nuevo inventario</a></header>
-  <section class="usuario-resumen"><article class="usuario-metrica"><span class="metrica-icono"><i class="fa-solid fa-folder"></i></span><div><small>Mis inventarios</small><strong><%= resumen.pendiente + resumen.aprobado + resumen.rechazado %></strong><p>Registros realizados</p></div></article><article class="usuario-metrica"><span class="metrica-icono enviado"><i class="fa-solid fa-paper-plane"></i></span><div><small>Enviados</small><strong><%= resumen.pendiente %></strong><p>En espera de revisión</p></div></article><article class="usuario-metrica"><span class="metrica-icono aprobado"><i class="fa-solid fa-circle-check"></i></span><div><small>Aprobados</small><strong><%= resumen.aprobado %></strong><p>Inventarios validados</p></div></article><article class="usuario-metrica"><span class="metrica-icono rechazado"><i class="fa-solid fa-circle-xmark"></i></span><div><small>Rechazados</small><strong><%= resumen.rechazado %></strong><p>Requieren atención</p></div></article></section>
-  <section class="usuario-grid"><article class="usuario-tabla tabla"><div class="usuario-seccion-titulo"><div><p class="eyebrow">SEGUIMIENTO</p><h2>Mis inventarios recientes</h2><span>Últimos envíos realizados.</span></div><a href="/usuario/historial">Ver historial <i class="fa-solid fa-arrow-right"></i></a></div><div class="tabla-responsive"><table><thead><tr><th>Subfondo</th><th>Fecha</th><th>Estatus</th></tr></thead><tbody><% if (recientes.length) { recientes.forEach(inventario => { %><tr><td><%= inventario.subfondo %></td><td><%= new Date(inventario.fecha_envio).toLocaleDateString('es-MX') %></td><td><span class="<%= inventario.estatus %>"><%= inventario.estatus %></span></td></tr><% }) } else { %><tr class="fila-vacia"><td colspan="3"><div class="estado-vacio"><span><i class="fa-regular fa-folder-open"></i></span><h3>Aún no tienes inventarios</h3><p>Crea tu primer inventario para consultarlo aquí.</p></div></td></tr><% } %></tbody></table></div></article><aside class="usuario-ayuda"><span class="ayuda-icono"><i class="fa-solid fa-circle-info"></i></span><p class="eyebrow">¿NECESITAS AYUDA?</p><h2>Antes de comenzar</h2><p>Consulta la normatividad y el instructivo para preparar correctamente tu inventario.</p><a href="/usuario/normativa">Ver documentos <i class="fa-solid fa-arrow-right"></i></a></aside></section>
-</main></div><%- include('../partials/profile-modal', { usuario }) %><%- include('../partials/scripts', { sidebar: true, scripts: [] }) %>
+<div class="contenedor">
+  <%- include('../partials/sidebar', { menu, usuario }) %>
+  <main class="contenido usuario-panel">
+    <header class="usuario-encabezado">
+      <div>
+        <p class="eyebrow">MI ESPACIO DE TRABAJO</p>
+        <h1>Bienvenido, <%= usuario.nombre %></h1>
+        <span>Consulta, crea y da seguimiento a tus inventarios documentales.</span>
+      </div>
+      
+      <a class="boton-principal" href="/usuario/inventario">
+        <i class="fa-solid fa-plus"></i> 
+        Nuevo inventario
+      </a>
+    </header>
+  
+    <section class="usuario-resumen">
+      <article class="usuario-metrica">
+        <span class="metrica-icono">
+          <i class="fa-solid fa-folder"></i>
+        </span>
+        
+        <div>
+          <small>Mis inventarios</small>
+          <strong><%= resumen.pendiente + resumen.aprobado + resumen.rechazado %></strong>
+          <p>Registros realizados</p>
+        </div>
+      </article>
+      
+      <article class="usuario-metrica">
+        <span class="metrica-icono enviado">
+          <i class="fa-solid fa-paper-plane"></i>
+        </span>
+        
+        <div>
+          <small>Enviados</small>
+          <strong><%= resumen.pendiente %></strong>
+          <p>En espera de revisión</p>
+        </div>
+      </article>
+      
+      <article class="usuario-metrica">
+        <span class="metrica-icono aprobado">
+          <i class="fa-solid fa-circle-check"></i>
+        </span>
+        
+        <div>
+          <small>Aprobados</small>
+          <strong><%= resumen.aprobado %></strong>
+          <p>Inventarios validados</p>
+        </div>
+      </article>
+      
+      <article class="usuario-metrica">
+        <span class="metrica-icono rechazado">
+          <i class="fa-solid fa-circle-xmark"></i>
+        </span>
+        
+        <div>
+          <small>Rechazados</small>
+          <strong><%= resumen.rechazado %></strong>
+          <p>Requieren atención</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="usuario-grid">
+      <article class="usuario-tabla tabla">
+        <div class="usuario-seccion-titulo">
+          <div>
+            <p class="eyebrow">SEGUIMIENTO</p>
+            <h2>Mis inventarios recientes</h2>
+            <span>Últimos envíos realizados.</span>
+          </div>
+
+          <a href="/usuario/historial">
+            Ver historial 
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      
+      <div class="tabla-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Subfondo</th>
+              <th>Fecha</th>
+              <th>Estatus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (recientes.length) { recientes.forEach(inventario => { %>
+              <tr>
+                <td>
+                  <%= inventario.subfondo %>
+                </td>
+                <td>
+                  <%= new Date(inventario.fecha_envio).toLocaleDateString('es-MX') %>
+                </td>
+                <td>
+                  <span class="<%= inventario.estatus %>">
+                    <%= inventario.estatus %>
+                  </span>
+                </td>
+              </tr>
+            <% }) } else { %>
+              <tr class="fila-vacia">
+                <td colspan="3">
+                  <div class="estado-vacio">
+                    <span>
+                      <i class="fa-regular fa-folder-open"></i>
+                    </span>
+                    <h3>Aún no tienes inventarios</h3>
+                    <p>Crea tu primer inventario para consultarlo aquí.</p>
+                  </div>
+                </td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+      </article>
+
+      <aside class="usuario-ayuda">
+        <span class="ayuda-icono">
+          <i class="fa-solid fa-circle-info"></i>
+        </span>
+        <p class="eyebrow">¿NECESITAS AYUDA?</p>
+        <h2>Antes de comenzar</h2>
+        <p>Consulta la normatividad y el instructivo para preparar correctamente tu inventario.</p>
+        
+        <a href="/usuario/normativa">
+          Ver documentos 
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </aside>
+    </section>
+  </main>
+</div>
+
+<%- include('../partials/profile-modal', { usuario }) %>
+<%- include('../partials/scripts', { sidebar: true, scripts: [] }) %>

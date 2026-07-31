@@ -1,11 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-file-view]').forEach((control) => {
-        const enlace = document.createElement('a');
-        enlace.href = control.dataset.fileView;
-        enlace.target = '_blank';
-        enlace.rel = 'noopener';
-        enlace.className = 'archivo-enlace';
-        enlace.innerHTML = '<i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i><span>Ver archivo</span>';
-        control.replaceWith(enlace);
+        const acciones = document.createElement('span');
+        acciones.className = 'archivo-acciones';
+        acciones.innerHTML = `<a href="${control.dataset.fileView}" target="_blank" rel="noopener" class="archivo-enlace" title="Visualizar archivo" aria-label="Visualizar archivo"><i class="fa-solid fa-eye" aria-hidden="true"></i></a><a href="${control.dataset.fileView}" download class="archivo-enlace" title="Descargar archivo" aria-label="Descargar archivo"><i class="fa-solid fa-download" aria-hidden="true"></i></a>`;
+        control.replaceWith(acciones);
     });
 });

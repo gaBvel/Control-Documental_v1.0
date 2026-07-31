@@ -19,7 +19,7 @@ async function login(req, res) {
             ? await bcrypt.compare(password, usuario.password)
             : password === usuario.password;
         if (!acceso) {
-            return res.status(401).json({ ok: false, field: 'password', message: 'Password incorrecto.' });
+            return res.status(401).json({ ok: false, field: 'password', message: 'Contraseña incorrecta.' });
         }
 
         req.session.usuario = usuario;

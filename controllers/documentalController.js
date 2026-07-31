@@ -82,7 +82,7 @@ async function resumenGlobal() {
 async function archivo(req, res) {
     const [resumen, recientes] = await Promise.all([
         resumenGlobal(),
-        pool.query(`SELECT r.*, u.nombre FROM registro_inventario r INNER JOIN usuarios_sistema u ON u.id = r.id_usuario WHERE r.estatus = 'pendiente' ORDER BY r.fecha_envio ASC LIMIT 5`)
+        pool.query(`SELECT r.*, u.nombre FROM registro_inventario r INNER JOIN usuarios_sistema u ON u.id = r.id_usuario WHERE r.estatus = 'pendiente' AND u.rol IN ('usuario', 'administrador') ORDER BY r.fecha_envio ASC LIMIT 5`)
     ]);
     res.render('Archivo/archivo', { title: 'Panel Archivo', active: 'dashboard', styles: ['Archivo/archivo.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Archivo', 'dashboard'), resumen, recientes: recientes[0] });
 }
@@ -96,7 +96,7 @@ async function director(req, res) {
 }
 
 async function inventariosDirector(req, res) {
-    const [inventarios] = await pool.query(`SELECT r.*, u.nombre FROM registro_inventario r INNER JOIN usuarios_sistema u ON u.id = r.id_usuario ORDER BY r.fecha_envio DESC`);
+    const [inventarios] = await pool.query(`SELECT r.*, u.nombre FROM registro_inventario r INNER JOIN usuarios_sistema u ON u.id = r.id_usuario WHERE u.rol IN ('usuario', 'administrador') ORDER BY r.fecha_envio DESC`);
     res.render('Director/inventario', { title: 'Control de inventarios', active: 'inventario', styles: ['Director/inventario.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Director', 'inventario'), inventarios });
 }
 
@@ -123,7 +123,7 @@ async function registrarInventario(req, res) {
             await conexion.query(`INSERT INTO inventario_documental(id_registro_inventario, ubicacion_topografica, soporte, titulo, descripcion, gestion_fecha_apertura, gestion_fecha_cierre, recepcion_fecha_apertura, recepcion_fecha_cierre, observacion_generador) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [registro.insertId, documento.ubicacion_topografica, documento.soporte, documento.titulo, documento.descripcion, documento.gestion_fecha_apertura, documento.gestion_fecha_cierre, documento.recepcion_fecha_apertura, documento.recepcion_fecha_cierre, documento.observacion_generador]);
         }
         await conexion.commit();
-        res.redirect('/usuario/historial');
+        res.redirect(req.session.usuario.rol === 'administrador' ? '/admin/historial' : '/usuario/historial');
     } catch (error) {
         await conexion.rollback();
         res.status(500).send('No fue posible registrar el inventario.');
@@ -131,37 +131,66 @@ async function registrarInventario(req, res) {
 }
 
 async function revisionArchivo(req, res) {
-    const [inventarios] = await pool.query(`SELECT r.*, u.nombre FROM registro_inventario r JOIN usuarios_sistema u ON u.id = r.id_usuario WHERE r.estatus = 'pendiente' ORDER BY r.fecha_envio ASC`);
+    const [inventarios] = await pool.query(`SELECT r.*, u.nombre FROM registro_inventario r JOIN usuarios_sistema u ON u.id = r.id_usuario WHERE r.estatus = 'pendiente' AND u.rol IN ('usuario', 'administrador') ORDER BY r.fecha_envio ASC`);
     res.render('Archivo/revision', { title: 'Revisión de inventarios', active: 'revision', styles: ['Archivo/revision.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Archivo', 'revision'), inventarios });
 }
 
 async function historialArchivo(req, res) {
-    const [inventarios] = await pool.query(`SELECT r.*, u.nombre FROM registro_inventario r JOIN usuarios_sistema u ON u.id = r.id_usuario ORDER BY r.fecha_envio DESC`);
-    res.render('Archivo/historial', { title: 'Historial de Archivo', active: 'historial', styles: ['Archivo/historial.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Archivo', 'historial'), inventarios });
+    const [inventarios, dictamenes] = await Promise.all([
+        pool.query(`SELECT r.*, u.nombre FROM registro_inventario r JOIN usuarios_sistema u ON u.id = r.id_usuario WHERE u.rol IN ('usuario', 'administrador') ORDER BY r.fecha_envio DESC`),
+        pool.query(`SELECT d.*, u.nombre AS responsable FROM dictamen d JOIN usuarios_sistema u ON u.id = d.id_usuario WHERE u.rol IN ('usuario', 'administrador') ORDER BY d.fecha_dictamen DESC, d.id DESC`)
+    ]);
+    res.render('Archivo/historial', { title: 'Historial de Archivo', active: 'historial', styles: ['Archivo/historial.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Archivo', 'historial'), inventarios: inventarios[0], dictamenes: dictamenes[0] });
 }
 
 async function actualizarEstatus(req, res) {
     const estatus = req.body.estatus;
     if (!['aprobado', 'rechazado'].includes(estatus)) return res.status(400).send('Estatus no válido.');
-    await pool.query('UPDATE registro_inventario SET estatus = ?, fecha_revision = NOW() WHERE id = ?', [estatus, req.params.id]);
+    await pool.query(`UPDATE registro_inventario r JOIN usuarios_sistema u ON u.id = r.id_usuario SET r.estatus = ?, r.fecha_revision = NOW() WHERE r.id = ? AND r.estatus = 'pendiente' AND u.rol IN ('usuario', 'administrador')`, [estatus, req.params.id]);
     res.redirect('/archivo/revision');
 }
 
 async function paginaDictamen(req, res) {
-    const [dictamenes] = await pool.query('SELECT * FROM dictamen ORDER BY fecha_dictamen DESC, id DESC');
-    res.render('Usuario/dictamen', { title: 'Dictámenes', active: 'dictamen', styles: ['Usuario/dictamen.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Usuario', 'dictamen'), dictamenes });
+    const [dictamenes] = await pool.query('SELECT * FROM dictamen WHERE id_usuario = ? ORDER BY fecha_dictamen DESC, id DESC', [req.session.usuario.id]);
+    res.render('Usuario/dictamen', { title: 'Dictámenes', active: 'dictamen', styles: ['Usuario/dictamen.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Usuario', 'dictamen'), dictamenes, formAction: '/usuario/dictamen' });
 }
 
 async function paginaDictamenArchivo(req, res) {
-    const [dictamenes] = await pool.query('SELECT * FROM dictamen ORDER BY fecha_dictamen DESC, id DESC');
+    const [dictamenes] = await pool.query(`SELECT d.*, u.nombre AS responsable FROM dictamen d INNER JOIN usuarios_sistema u ON u.id = d.id_usuario WHERE d.estatus = 'pendiente' AND u.rol IN ('usuario', 'administrador') ORDER BY d.fecha_dictamen ASC, d.id ASC`);
     res.render('Archivo/dictamen', { title: 'Dictámenes', active: 'dictamen', styles: ['Usuario/dictamen.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Archivo', 'dictamen'), dictamenes });
+}
+
+async function paginaDictamenDirector(req, res) {
+    const [dictamenes] = await pool.query(`SELECT d.*, u.nombre AS responsable FROM dictamen d INNER JOIN usuarios_sistema u ON u.id = d.id_usuario WHERE u.rol IN ('usuario', 'administrador') ORDER BY d.fecha_dictamen DESC, d.id DESC`);
+    res.render('Director/dictamen', { title: 'Dictámenes', active: 'dictamen', styles: ['Director/inventario.css'], usuario: req.session.usuario, menu: require('../config/menu').getMenu('Director', 'dictamen'), dictamenes });
 }
 
 async function registrarDictamen(req, res) {
     if (!req.files?.archivoDictamen?.[0]) return res.status(400).send('El archivo del dictamen es requerido.');
     const archivo = (nombre) => req.files?.[nombre]?.[0] ? `/resources/uploads/${req.files[nombre][0].filename}` : null;
-    await pool.query('INSERT INTO dictamen(fecha_dictamen, archivo_dictamen, tipo_dictamen, archivo_acta, evidencia, observacion) VALUES (?, ?, ?, ?, ?, ?)', [req.body.fechaDictamen, archivo('archivoDictamen'), req.body.tipoDictamen, archivo('archivoActa'), archivo('evidencia'), req.body.observacion || null]);
-    res.redirect('/usuario/dictamen');
+    await pool.query('INSERT INTO dictamen(id_usuario, fecha_dictamen, archivo_dictamen, tipo_dictamen, archivo_acta, evidencia, observacion) VALUES (?, ?, ?, ?, ?, ?, ?)', [req.session.usuario.id, req.body.fechaDictamen, archivo('archivoDictamen'), req.body.tipoDictamen, archivo('archivoActa'), archivo('evidencia'), req.body.observacion || null]);
+    res.redirect(req.session.usuario.rol === 'administrador' ? '/admin/dictamen' : '/usuario/dictamen');
 }
 
-module.exports = { csvUpload, documentUpload, usuario, historialUsuario, registrarInventario, archivo, director, inventariosDirector, historialDirector, revisionArchivo, historialArchivo, actualizarEstatus, paginaDictamen, paginaDictamenArchivo, registrarDictamen };
+function rutaHistorialPropio(req) {
+    return req.session.usuario.rol === 'administrador' ? '/admin/historial' : '/usuario/historial';
+}
+
+async function eliminarInventario(req, res) {
+    await pool.query('DELETE FROM registro_inventario WHERE id = ? AND id_usuario = ?', [req.params.id, req.session.usuario.id]);
+    res.redirect(rutaHistorialPropio(req));
+}
+
+async function eliminarDictamen(req, res) {
+    await pool.query('DELETE FROM dictamen WHERE id = ? AND id_usuario = ?', [req.params.id, req.session.usuario.id]);
+    res.redirect(req.session.usuario.rol === 'administrador' ? '/admin/historial' : '/usuario/dictamen');
+}
+
+async function actualizarEstatusDictamen(req, res) {
+    const estatus = req.body.estatus;
+    if (!['aprobado', 'rechazado'].includes(estatus)) return res.status(400).send('Estatus no válido.');
+    await pool.query(`UPDATE dictamen d JOIN usuarios_sistema u ON u.id = d.id_usuario SET d.estatus = ?, d.fecha_revision = NOW() WHERE d.id = ? AND d.estatus = 'pendiente' AND u.rol IN ('usuario', 'administrador')`, [estatus, req.params.id]);
+    res.redirect('/archivo/dictamen');
+}
+
+module.exports = { csvUpload, documentUpload, usuario, historialUsuario, registrarInventario, archivo, director, inventariosDirector, historialDirector, revisionArchivo, historialArchivo, actualizarEstatus, paginaDictamen, paginaDictamenArchivo, paginaDictamenDirector, registrarDictamen, eliminarInventario, eliminarDictamen, actualizarEstatusDictamen };

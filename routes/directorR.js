@@ -11,6 +11,7 @@ const documental = require('../controllers/documentalController');
 //Ruta principal
 router.get('/director', auth, roles.soloDirector, documental.director);
 router.get('/director/inventario', auth, roles.soloDirector, documental.inventariosDirector);
+router.get('/director/dictamen', auth, roles.soloDirector, documental.paginaDictamenDirector);
 router.get('/director/historial', auth, roles.soloDirector, documental.historialDirector);
 
 module.exports = router;

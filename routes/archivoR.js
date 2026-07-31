@@ -15,5 +15,6 @@ router.get('/archivo/historial', auth, roles.soloArchivo, documental.historialAr
 router.get('/archivo/revision', auth, roles.soloArchivo, documental.revisionArchivo);
 router.get('/archivo/dictamen', auth, roles.soloArchivo, documental.paginaDictamenArchivo);
 router.post('/archivo/inventario/:id/estatus', auth, roles.soloArchivo, documental.actualizarEstatus);
+router.post('/archivo/dictamen/:id/estatus', auth, roles.soloArchivo, documental.actualizarEstatusDictamen);
 
 module.exports = router;

@@ -55,14 +55,33 @@ async function createTables() {
     await pool.promise().query(
         `CREATE TABLE IF NOT EXISTS dictamen(
             id INT AUTO_INCREMENT PRIMARY KEY,
+            id_usuario INT NULL,
             fecha_dictamen DATE NOT NULL,
             archivo_dictamen VARCHAR(255) NOT NULL,
             tipo_dictamen VARCHAR(100) NOT NULL,
             archivo_acta VARCHAR(255) NULL,
             evidencia VARCHAR(255) NULL,
-            observacion TEXT NULL
+            observacion TEXT NULL,
+            estatus ENUM('pendiente', 'aprobado', 'rechazado') NOT NULL DEFAULT 'pendiente',
+            fecha_revision DATETIME NULL,
+            CONSTRAINT fk_dictamen_usuario FOREIGN KEY (id_usuario) REFERENCES usuarios_sistema(id)
         );`
     );
+
+    const [columnas] = await pool.promise().query("SHOW COLUMNS FROM dictamen LIKE 'id_usuario'");
+    if (!columnas.length) {
+        await pool.promise().query('ALTER TABLE dictamen ADD COLUMN id_usuario INT NULL AFTER id');
+        await pool.promise().query('ALTER TABLE dictamen ADD CONSTRAINT fk_dictamen_usuario FOREIGN KEY (id_usuario) REFERENCES usuarios_sistema(id)');
+    }
+
+    const [estatusDictamen] = await pool.promise().query("SHOW COLUMNS FROM dictamen LIKE 'estatus'");
+    if (!estatusDictamen.length) {
+        await pool.promise().query("ALTER TABLE dictamen ADD COLUMN estatus ENUM('pendiente', 'aprobado', 'rechazado') NOT NULL DEFAULT 'pendiente'");
+    }
+    const [fechaRevisionDictamen] = await pool.promise().query("SHOW COLUMNS FROM dictamen LIKE 'fecha_revision'");
+    if (!fechaRevisionDictamen.length) {
+        await pool.promise().query('ALTER TABLE dictamen ADD COLUMN fecha_revision DATETIME NULL');
+    }
 
     console.log('Tabla creada con exito');
 }
